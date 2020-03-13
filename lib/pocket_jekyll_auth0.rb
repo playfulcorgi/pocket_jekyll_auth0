@@ -7,9 +7,9 @@ class JekyllPocketError < StandardError; end
 
 class NetworkError < JekyllPocketError; end
 
-class PocketEmbed < Liquid::Tag
+class PocketJekyllAuth0 < Liquid::Tag
   def self.cache
-    @cache ||= Jekyll::Cache.new('PocketEmbed')
+    @cache ||= Jekyll::Cache.new('PocketJekyllAuth0')
   end
 
   def self.attemptListCacheClear(site)
@@ -35,7 +35,7 @@ class PocketEmbed < Liquid::Tag
     token_object = getTokenObject(config_auth0)
 
     if token_object != false
-      cache = PocketEmbed.cache
+      cache = PocketJekyllAuth0.cache
 
       return cache['token_object'] = token_object
     end
@@ -44,7 +44,7 @@ class PocketEmbed < Liquid::Tag
   end
 
   def getFillTokenCache(config_auth0)
-    cache = PocketEmbed.cache
+    cache = PocketJekyllAuth0.cache
 
     if !cache.key?('token_object')
       fillTokenCache(config_auth0)
@@ -59,7 +59,7 @@ class PocketEmbed < Liquid::Tag
   end
 
   def fillPocketList(bearer_token, pocket_api_url, pocket_list_filter)
-    cache = PocketEmbed.cache
+    cache = PocketJekyllAuth0.cache
 
     url = URI(pocket_api_url)
 
@@ -106,7 +106,7 @@ class PocketEmbed < Liquid::Tag
   end
 
   def getFillPocketList(bearer_token, pocket_api_url, pocket_list_filter, cache_timeout)
-    cache = PocketEmbed.cache 
+    cache = PocketJekyllAuth0.cache 
 
     if !cache.key?('pocket_list')
       puts "pocket_list key not in cache. Trying to fill."

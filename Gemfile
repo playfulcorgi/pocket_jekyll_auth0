@@ -2,6 +2,7 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+# Specify your gem's dependencies in aaa.gemspec
+gemspec
 
-gem "auth0-machine-to-machine", github: "playfulcorgi/auth0-machine-to-machine", ref: "2522aa1f989c004348b5b86bfdce2c494ef78be3"
+gem "auth0_machine_to_machine", github: "playfulcorgi/auth0_machine_to_machine", ref: "d874132a6dddeb5c7de644f7ed28a080e2588060"
