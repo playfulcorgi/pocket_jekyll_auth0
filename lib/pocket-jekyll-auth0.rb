@@ -1,5 +1,5 @@
 require 'jekyll'
-require 'auth0-bearer-token'
+require 'auth0-machine-to-machine'
 require 'uri'
 require 'net/http'
 
