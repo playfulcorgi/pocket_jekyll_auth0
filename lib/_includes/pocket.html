@@ -1,0 +1,14 @@
+{% if pocket_list.size > 0 %}
+  <h3>Links from Pocket</h3>
+  <ul>
+    {% for pocket_entry in pocket_list %}
+      <li>
+        <div>
+          <h3>{{pocket_entry.resolved_title}}</h3>
+          <div>{{pocket_entry.excerpt}}</div>
+          <a href="{{pocket_entry.resolved_url}}" target="_blank">Visit</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
