@@ -24,7 +24,7 @@ class PocketJekyllAuth0 < Liquid::Tag
 
   def getTokenObject(config_auth0)
     begin
-      ::Auth0BearerToken.new.getM2M!(config_auth0)
+      ::Auth0MachineToMachine.new.getM2M!(config_auth0)
     rescue Exception => e
       puts 'Could not authenticate with Auth0.', e
       false
