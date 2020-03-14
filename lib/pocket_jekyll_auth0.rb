@@ -36,7 +36,7 @@ module PocketJekyllAuth0
       token_object = getTokenObject(config_auth0)
 
       if token_object != false
-        cache = PocketJekyllAuth0.cache
+        cache = PocketJekyllAuth0::Tag.cache
 
         return cache['token_object'] = token_object
       end
@@ -45,7 +45,7 @@ module PocketJekyllAuth0
     end
 
     def getFillTokenCache(config_auth0)
-      cache = PocketJekyllAuth0.cache
+      cache = PocketJekyllAuth0::Tag.cache
 
       if !cache.key?('token_object')
         fillTokenCache(config_auth0)
@@ -60,7 +60,7 @@ module PocketJekyllAuth0
     end
 
     def fillPocketList(bearer_token, pocket_api_url, pocket_list_filter)
-      cache = PocketJekyllAuth0.cache
+      cache = PocketJekyllAuth0::Tag.cache
 
       url = URI(pocket_api_url)
 
@@ -107,7 +107,7 @@ module PocketJekyllAuth0
     end
 
     def getFillPocketList(bearer_token, pocket_api_url, pocket_list_filter, cache_timeout)
-      cache = PocketJekyllAuth0.cache 
+      cache = PocketJekyllAuth0::Tag.cache 
 
       if !cache.key?('pocket_list')
         puts "pocket_list key not in cache. Trying to fill."
