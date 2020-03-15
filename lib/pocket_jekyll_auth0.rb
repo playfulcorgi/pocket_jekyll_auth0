@@ -167,7 +167,7 @@ module PocketJekyllAuth0
         pocket_list = getFillPocketList(bearer_token, pocket_api_url, pocket_list_filter, cache_timeout)
 
         if pocket_list != false
-          # TODO: only get new bearer token when current was rejected instead of getting it on every error
+          # TODO: Only get new bearer token when current was rejected instead of getting it on every error.
           token_object = getFillTokenCache(context)
           pocket_list = getFillPocketList(bearer_token, pocket_api_url, pocket_list_filter, cache_timeout)[:list]
 
