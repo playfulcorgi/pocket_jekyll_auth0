@@ -1,3 +1,4 @@
+require 'pocket_jekyll_auth0/version'
 require 'jekyll'
 require 'auth0_machine_to_machine'
 require 'uri'
@@ -133,11 +134,35 @@ module PocketJekyllAuth0
         template_path = File.join __dir__, '_includes', 'pocket.html'
         template = File.read template_path
       end
+
       Liquid::Template.parse template
     end
 
-    def renderTemplate(site, pocket_list)
-      getTemplate.render site.site_payload.merge!({'pocket_list' => pocket_list})
+    def renderTemplate(context, pocket_list)
+      site = context.registers[:site]
+      payload = Jekyll::Utils.deep_merge_hashes(
+        site.site_payload,
+        # Copy context['page'] from Jekyll to pocket.html template context so it's available for custom Liquid tags inside it like jekyll-timeago.
+        'page' => context['page'],
+        'pocket_list' => pocket_list
+      )
+      getTemplate.render!(payload)
+    end
+
+    def preparePocketListForTemplate raw_list
+      raw_list
+        .map { |item_id, item_value| item_value }
+        .sort_by { |item_value| item_value['time_updated'] }
+        .map do |item_value|
+          item_value.map do |item_value_key, item_value_value|
+            if item_value_key =~ /\Atime_/
+              [item_value_key, Time.at(item_value_value.to_i)]
+            else
+              [item_value_key, item_value_value]
+            end
+          end
+          .to_h
+        end
     end
 
     def render(context)
@@ -171,16 +196,14 @@ module PocketJekyllAuth0
           token_object = getFillTokenCache(context)
           pocket_list = getFillPocketList(bearer_token, pocket_api_url, pocket_list_filter, cache_timeout)[:list]
 
-          ordered_pocket_list = []
-          pocket_list.each { |item_id, item_value| ordered_pocket_list << item_value }
-          ordered_pocket_list.sort_by { |item_value| item_value['time_updated'] }
+          ordered_pocket_list = preparePocketListForTemplate(pocket_list)
 
-          render = renderTemplate(site, ordered_pocket_list)
+          render = renderTemplate(context, ordered_pocket_list)
         else
-          render = renderTemplate(site, [])
+          render = renderTemplate(context, [])
         end
       else
-        render = renderTemplate(site, [])
+        render = renderTemplate(context, [])
       end
     end
 
