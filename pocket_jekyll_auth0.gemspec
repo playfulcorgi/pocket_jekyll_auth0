@@ -11,6 +11,6 @@ Gem::Specification.new do |spec|
   spec.files = ["lib/pocket_jekyll_auth0.rb"]
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.5.0"
-  spec.add_runtime_dependency "auth0_machine_to_machine", "~> 0.1.0"
+  spec.add_runtime_dependency "auth0_machine_to_machine", "~> 0.1.1"
   spec.add_runtime_dependency "jekyll", "~> 4.0.0"
 end
